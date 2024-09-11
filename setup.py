@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 def install_required_packages():
-    required_packages = ['requests', 'pystyle']
+    required_packages = ['requests', 'pystyle', 'tkinter']
     
     for package in required_packages:
         try:
@@ -39,4 +39,4 @@ if __name__ == "__main__":
     install_required_packages()
     
     batch_file_path = create_batch_file()
-    print(f"Setup complete! {batch_file_path}")
+    print(f"Setup complete!")
