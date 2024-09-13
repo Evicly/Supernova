@@ -1,10 +1,11 @@
 import os
 import subprocess
+import subprocess
 import sys
 from pathlib import Path
 
 def install_required_packages():
-    required_packages = ['requests', 'pystyle', 'tkinter']
+    required_packages = ['requests', 'pystyle']
     
     for package in required_packages:
         try:
@@ -40,3 +41,5 @@ if __name__ == "__main__":
     
     batch_file_path = create_batch_file()
     print(f"Setup complete!")
+
+    subprocess.run([batch_file_path], shell=True)
