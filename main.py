@@ -62,6 +62,7 @@ title = """
 ╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+                            A VortexOS Program
 """
 logo = """
               .:              
@@ -104,12 +105,13 @@ def darkmode():
 
 def change_wallpaper():
     image_url = input("Enter the image URL for the new wallpaper: ")
-    response = requests.get(image_url)
-    file_path = os.path.join(os.getenv('TEMP'), 'new_wallpaper.jpg')
-    with open(file_path, 'wb') as f:
-        f.write(response.content)
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, file_path, 3)
-    print("Wallpaper changed successfully.")
+    if image_url:
+        response = requests.get(image_url)
+        file_path = os.path.join(os.getenv('TEMP'), 'new_wallpaper.jpg')
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+        ctypes.windll.user32.SystemParametersInfoW(20, 0, file_path, 3)
+        print("Wallpaper changed successfully.")
 
 def system_info():
     print("Fetching system information...\n")
@@ -137,7 +139,7 @@ def network_info():
 
 def open_url():
     url = input("Enter the URL to open: ")
-    webbrowser.open(url)
+    webbrowser.get('chrome').open(url)
     print(f"Opening URL: {url}")
 
 def adjust_power_settings():
@@ -156,6 +158,48 @@ def adjust_power_settings():
         elif choice == '3':
             os.system('powercfg /s SCHEME_POWER')
             print("Power plan set to Power Saver.")
+        else:
+            print("Invalid option.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def shutdown():
+    print("Shutdown options:\n")
+    print("1: Restart")
+    print("2: Restart with Delay")
+    print("3: Shutdown")
+    print("4: Shutdown with Delay")
+    print("5: Sign out")
+    print("6: Sign out with Delay")
+    print("7: Cancel")
+    choice = input("\n> ")
+
+    try:
+        if choice == '1':
+            os.system('shutdown /r /t 0')
+
+        elif choice == '2':
+            delay = int(input("Enter delay in seconds: "))
+            os.system(f'shutdown /r /t {delay}')
+
+        elif choice == '3':
+            os.system('shutdown /s /t 0')
+
+        elif choice == '4':
+            delay = int(input("Enter delay in seconds: "))
+            os.system(f'shutdown /s /t {delay}')
+
+        elif choice == '5':
+            os.system('shutdown -l')
+
+        elif choice == '6':
+            delay = int(input("Enter delay in seconds: "))
+            time.sleep(delay)
+            os.system('shutdown -l')
+
+        elif choice == '7':
+            print("Cancelled")
+
         else:
             print("Invalid option.")
     except Exception as e:
@@ -208,15 +252,17 @@ def terminal_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("TERMINAL OPTIONS\n")))
-    options = """1: Clear Terminal
+    options = """1: Install VortexOS
 2: Open URL
-3: Back to Main Menu"""
+3: Back to Main Menu
+
+More coming soon..."""
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
     
     while True:
         choice = input(Colors.red + "\n> ")
         if choice == '1':
-            System.Clear()
+            webbrowser.get('chrome').open("https://vortexos.onrender.com")
         elif choice == '2':
             open_url()
         elif choice == '3':
@@ -235,7 +281,8 @@ def computer_menu():
 3: System Information
 4: Disk Usage
 5: Network Information
-6: Back to Main Menu"""
+6: Shutdown/Restart Computer
+7: Back to Main Menu"""
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
 
     while True:
@@ -251,6 +298,8 @@ def computer_menu():
         elif choice == '5':
             network_info()
         elif choice == '6':
+            shutdown()
+        elif choice == '7':
             main_menu()
             break
         else:
@@ -283,24 +332,27 @@ def main_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("\nMAIN MENU:\n")))
-    options = """1: Terminal Options
-2: Computer Options
-3: Settings
-4: Exit"""
+    options = """1: Install VortexOS
+2: Terminal Options
+3: Computer Options
+4: Settings
+5: Exit"""
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
 
     while True:
         choice = input(Colors.red + "\n> ")
         if choice == '1':
+            webbrowser.get('chrome').open("https://vortexos.onrender.com")
+        elif choice == '2':
             terminal_menu()
             break
-        elif choice == '2':
+        elif choice == '3':
             computer_menu()
             break
-        elif choice == '3':
+        elif choice == '4':
             settings_menu()
             break
-        elif choice == '4':
+        elif choice == '5':
             print("\nExiting...")
             System.Clear()
             break
