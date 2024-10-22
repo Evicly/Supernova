@@ -1,5 +1,5 @@
 # SUPERNOVA
-A fun tool to change settings on managed windows devices
+A fun tool to change a few settings on managed windows devices
 
 
 HOW TO INSTALL
