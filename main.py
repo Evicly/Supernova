@@ -62,7 +62,7 @@ title = """
 ╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
-                            A VortexOS Program
+                            A Vortex Program
 """
 logo = """
               .:              
@@ -252,7 +252,7 @@ def terminal_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("TERMINAL OPTIONS\n")))
-    options = """1: Install VortexOS
+    options = """1: Install Vortex
 2: Open URL
 3: Back to Main Menu
 
@@ -332,7 +332,7 @@ def main_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("\nMAIN MENU:\n")))
-    options = """1: Install VortexOS
+    options = """1: Install Vortex
 2: Terminal Options
 3: Computer Options
 4: Settings
