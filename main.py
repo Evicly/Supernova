@@ -276,9 +276,8 @@ More coming soon..."""
             open_url()
         elif choice == '3':
             inneroptions = """1: Kill task once
-2: Main Menu
-3: Kill task while supernova is running(slows down computer) [Coming Soon]
-
+2: Kill task while supernova is running(slows down computer) [Coming Soon]
+3: Main Menu
 """
             print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(inneroptions))))
             innerchoice = input(Colors.red + "\n>")
@@ -320,7 +319,7 @@ More coming soon..."""
                     break
 
                 else:
-                    print("Feature Currently Unavailable")
+                    print("Invalid Option")
                     terminal_menu()
                     break
 
