@@ -282,35 +282,44 @@ More coming soon..."""
 """
             print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(inneroptions))))
             innerchoice = input(Colors.red + "\n>")
+            
             while True:
                 if innerchoice == '1':
                     task = input(Colors.red + "\n> Enter Task to be Terminated: ")
-                    if process_exists(task) == True:
+                    if process_exists(task):
                         subprocess.run(['taskkill', '/F', '/IM', task], check=True)
-                        print(f"process ${task} has been killed")
+                        print(f"Process {task} has been killed")
                         terminal_menu()
                         break
                     else:
-                        print(f"process ${task} does not exist, or is not currently running")
+                        print(f"Process {task} does not exist, or is not currently running")
                         terminal_menu()
                         break
-                # elif innerchoice == '2':
-                #     task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
-                #     while True:
-                #         try:
-                #             if process_exists(task) == True:
-                #                 subprocess.run(['taskkill', '/F', '/IM', task], check=True)
-                #         except subprocess.CalledProcessError as e:
-                #                 if e.returncode == 128:
-                #                     print(f"{task} is not running or couldn't be found.")
-                #                 else:
-                #                      print(f"Failed to kill {task}: {e}")
-                #         else:
-                #             terminal_menu()
-                elif innerchoice == '2':
+                
+                elif innerchoice == '2':  # Repetitive kill
+                    task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
+                    while True:
+                        try:
+                            if process_exists(task):
+                                subprocess.run(['taskkill', '/F', '/IM', task], check=True)
+                                print(f"Process {task} has been killed again.")
+                            else:
+                                print(f"Process {task} does not exist, or is not currently running.")
+                                break
+                        except subprocess.CalledProcessError as e:
+                            if e.returncode == 128:
+                                print(f"{task} is not running or couldn't be found.")
+                            else:
+                                print(f"Failed to kill {task}: {e}")
+                        time.sleep(5)  # Add delay to avoid overloading the system with taskkill calls
+                    terminal_menu()
+                    break
+
+                elif innerchoice == '3':  # Main menu
                     main_menu()
                     break
-                elif innerchoice == '3':
+
+                else:
                     print("Feature Currently Unavailable")
                     terminal_menu()
                     break
