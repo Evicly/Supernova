@@ -9,6 +9,7 @@ import webbrowser
 import winreg as reg
 import platform
 import shutil
+import subprocess
 
 chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
 if not os.path.exists(chrome_path):
@@ -212,7 +213,7 @@ def manage_startup_programs():
     print("3: Remove Startup Program")
     choice = input("\n> ")
     if choice == '1':
-        startup_path = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+        startup_path = r"SOFTWARE/Microsoft/Windows/CurrentVersion/Run"
         try:
             key = reg.OpenKey(reg.HKEY_CURRENT_USER, startup_path, 0, reg.KEY_READ)
             i = 0
@@ -248,13 +249,21 @@ def manage_startup_programs():
     else:
         print("Invalid option.")
 
+
+def process_exists(process_name):
+    call = 'TASKLIST', '/FI', 'imagename eq %s' % process_name
+    output = subprocess.check_output(call).decode()
+    last_line = output.strip().split('\r\n')[-1]
+    return last_line.lower().startswith(process_name.lower())
+
 def terminal_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("TERMINAL OPTIONS\n")))
     options = """1: Install Vortex
 2: Open URL
-3: Back to Main Menu
+3: TaskKiller
+4: Back to Main Menu
 
 More coming soon..."""
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
@@ -266,6 +275,48 @@ More coming soon..."""
         elif choice == '2':
             open_url()
         elif choice == '3':
+            inneroptions = """1: Kill task once
+2: Main Menu
+3: Kill task while supernova is running(slows down computer) [Coming Soon]
+
+"""
+            print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(inneroptions))))
+            innerchoice = input(Colors.red + "\n>")
+            while True:
+                if innerchoice == '1':
+                    task = input(Colors.red + "\n> Enter Task to be Terminated: ")
+                    if process_exists(task) == True:
+                        subprocess.run(['taskkill', '/F', '/IM', task], check=True)
+                        print(f"process ${task} has been killed")
+                        terminal_menu()
+                        break
+                    else:
+                        print(f"process ${task} does not exist, or is not currently running")
+                        terminal_menu()
+                        break
+                # elif innerchoice == '2':
+                #     task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
+                #     while True:
+                #         try:
+                #             if process_exists(task) == True:
+                #                 subprocess.run(['taskkill', '/F', '/IM', task], check=True)
+                #         except subprocess.CalledProcessError as e:
+                #                 if e.returncode == 128:
+                #                     print(f"{task} is not running or couldn't be found.")
+                #                 else:
+                #                      print(f"Failed to kill {task}: {e}")
+                #         else:
+                #             terminal_menu()
+                elif innerchoice == '2':
+                    main_menu()
+                    break
+                elif innerchoice == '3':
+                    print("Feature Currently Unavailable")
+                    terminal_menu()
+                    break
+
+                        
+        elif choice == '4':
             main_menu()
             break
         else:
@@ -328,6 +379,9 @@ def settings_menu():
             print("\nInvalid option.")
             time.sleep(1)
 
+
+
+
 def main_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
@@ -359,6 +413,9 @@ def main_menu():
         else:
             print("\nInvalid option.")
             time.sleep(1)
+
+
+
 
 System.Clear()
 System.Title("Supernova")
