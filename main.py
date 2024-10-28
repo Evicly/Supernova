@@ -11,6 +11,8 @@ import platform
 import shutil
 import subprocess
 
+
+
 chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
 if not os.path.exists(chrome_path):
     print("Chrome executable not found at specified path.")
@@ -297,22 +299,22 @@ More coming soon..."""
                 
                 elif innerchoice == '2':  # Repetitive kill
                     task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
-                    while True:
+                    loop = True
+                    while loop == True:
                         try:
                             if process_exists(task):
                                 subprocess.run(['taskkill', '/F', '/IM', task], check=True)
                                 print(f"Process {task} has been killed again.")
                             else:
                                 print(f"Process {task} does not exist, or is not currently running.")
-                                break
                         except subprocess.CalledProcessError as e:
                             if e.returncode == 128:
                                 print(f"{task} is not running or couldn't be found.")
                             else:
                                 print(f"Failed to kill {task}: {e}")
-                        time.sleep(5)  # Add delay to avoid overloading the system with taskkill calls
-                    terminal_menu()
-                    break
+                        time.sleep(3)  # Add delay to avoid overloading the system with taskkill calls
+
+
 
                 elif innerchoice == '3':  # Main menu
                     main_menu()
