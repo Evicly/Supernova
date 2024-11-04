@@ -1,12 +1,12 @@
 # SUPERNOVA
-A fun tool to change a few settings on managed windows devices
-
+A fun tool for managed windows devices
 
 
 ### Features
 - Toggle dark mode
 - Change wallpaper
 - View system information
+- Task Killer
 - More coming soon
 
 

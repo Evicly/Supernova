@@ -323,6 +323,42 @@ More coming soon..."""
             print("\nInvalid option.")
             time.sleep(1)
 
+def taskbar_settings():
+    System.Clear()
+    print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter("TASKBAR SETTINGS\n")))
+    options = """1: Auto-hide Taskbar
+2: Show Taskbar
+3: Move Taskbar Position (Top, Bottom, Left, Right)
+4: Back to Computer Options"""
+    print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
+
+    while True:
+        choice = input(Colors.red + "\n> ")
+        if choice == '1':
+            os.system("powershell -command \"(New-Object -ComObject shell.application).minimizeall()\"") # Minimize all windows
+            ctypes.windll.user32.SystemParametersInfoW(0x012, 0, 1, 0) # Hide taskbar
+            print("Taskbar set to auto-hide.")
+        elif choice == '2':
+            ctypes.windll.user32.SystemParametersInfoW(0x012, 0, 0, 0) # Show taskbar
+            print("Taskbar set to always show.")
+        elif choice == '3':
+            print("Choose taskbar position:")
+            print("1: Top\n2: Bottom\n3: Left\n4: Right")
+            position = input("\n> ")
+            positions = {'1': 1, '2': 3, '3': 0, '4': 2}
+            pos_value = positions.get(position)
+            if pos_value is not None:
+                ctypes.windll.user32.SystemParametersInfoW(0x000F, pos_value, 0, 1)  # Move taskbar
+                print("Taskbar position updated.")
+            else:
+                print("Invalid option.")
+        elif choice == '4':
+            computer_menu()
+            break
+        else:
+            print("\nInvalid option.")
+            time.sleep(1)
+
 def computer_menu():
     System.Clear()
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Add.Add(logo, title, 5))))
@@ -333,7 +369,8 @@ def computer_menu():
 4: Disk Usage
 5: Network Information
 6: Shutdown/Restart Computer
-7: Back to Main Menu"""
+7: Taskbar Settings
+8: Back to Main Menu"""
     print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(options))))
 
     while True:
@@ -351,6 +388,8 @@ def computer_menu():
         elif choice == '6':
             shutdown()
         elif choice == '7':
+            taskbar_settings()
+        elif choice == '8':
             main_menu()
             break
         else:
