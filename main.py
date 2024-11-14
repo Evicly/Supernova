@@ -11,6 +11,8 @@ import platform
 import shutil
 import subprocess
 
+
+
 chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
 if not os.path.exists(chrome_path):
     print("Chrome executable not found at specified path.")
@@ -276,42 +278,50 @@ More coming soon..."""
             open_url()
         elif choice == '3':
             inneroptions = """1: Kill task once
-2: Main Menu
-3: Kill task while supernova is running(slows down computer) [Coming Soon]
-
+2: Kill task while supernova is running(slows down computer) [Coming Soon]
+3: Main Menu
 """
             print(Colorate.Horizontal(Colors.DynamicMIX((Col.red, Col.orange)), Center.XCenter(Box.DoubleCube(inneroptions))))
             innerchoice = input(Colors.red + "\n>")
+            
             while True:
                 if innerchoice == '1':
                     task = input(Colors.red + "\n> Enter Task to be Terminated: ")
-                    if process_exists(task) == True:
+                    if process_exists(task):
                         subprocess.run(['taskkill', '/F', '/IM', task], check=True)
-                        print(f"process ${task} has been killed")
+                        print(f"Process {task} has been killed")
                         terminal_menu()
                         break
                     else:
-                        print(f"process ${task} does not exist, or is not currently running")
+                        print(f"Process {task} does not exist, or is not currently running")
                         terminal_menu()
                         break
-                # elif innerchoice == '2':
-                #     task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
-                #     while True:
-                #         try:
-                #             if process_exists(task) == True:
-                #                 subprocess.run(['taskkill', '/F', '/IM', task], check=True)
-                #         except subprocess.CalledProcessError as e:
-                #                 if e.returncode == 128:
-                #                     print(f"{task} is not running or couldn't be found.")
-                #                 else:
-                #                      print(f"Failed to kill {task}: {e}")
-                #         else:
-                #             terminal_menu()
-                elif innerchoice == '2':
+                
+                elif innerchoice == '2':  # Repetitive kill
+                    task = input(Colors.red + "\n> Enter Task to be Terminated Repeatedly: ")
+                    loop = True
+                    while loop == True:
+                        try:
+                            if process_exists(task):
+                                subprocess.run(['taskkill', '/F', '/IM', task], check=True)
+                                print(f"Process {task} has been killed again.")
+                            else:
+                                print(f"Process {task} does not exist, or is not currently running.")
+                        except subprocess.CalledProcessError as e:
+                            if e.returncode == 128:
+                                print(f"{task} is not running or couldn't be found.")
+                            else:
+                                print(f"Failed to kill {task}: {e}")
+                        time.sleep(3)  # Add delay to avoid overloading the system with taskkill calls
+
+
+
+                elif innerchoice == '3':  # Main menu
                     main_menu()
                     break
-                elif innerchoice == '3':
-                    print("Feature Currently Unavailable")
+
+                else:
+                    print("Invalid Option")
                     terminal_menu()
                     break
 
